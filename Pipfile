@@ -12,6 +12,8 @@ django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
 django = "*"
 django-cleanup = "*"
+gunicorn = "*"
+pip = "*"
 
 [dev-packages]
 
