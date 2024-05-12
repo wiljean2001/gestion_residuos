@@ -1,0 +1,53 @@
+# services:
+#   web:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     command: gunicorn --bind 0.0.0.0:8000 gestion_residuos.wsgi:application
+#     volumes:
+#       - ./aplicaciones:/app/aplicaciones
+#       - ./gestion_residuos:/app/gestion_residuos
+#       - ./frontend:/app/frontend
+#     ports:
+#       - "8000:8000"
+#     env_file:
+#       - .env
+#     depends_on:
+#       - db
+
+#   db:
+#     image: postgres:16
+#     environment:
+#       POSTGRES_DB: ${DB_NAME}
+#       POSTGRES_USER: ${DB_USER}
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
+
+
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: aguilas_emaus
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: aguilas_emaus_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
