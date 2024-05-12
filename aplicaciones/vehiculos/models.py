@@ -1,15 +1,52 @@
+# aplicaciones/vehiculos/models.py
 from django.db import models
 
-# Create your models here.
 
+class Marcas(models.Model):
+    nombre = models.CharField(max_length=50)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
 
-class Vehiculo(models.Model):
-    placa = models.CharField(max_length=255)
-    modelo = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=255)
-    año = models.IntegerField()
-    capacidad = models.DecimalField(max_digits=10, decimal_places=2)
-    estado = models.CharField(max_length=100)
+    class Meta:
+        db_table = "vehiculos-marcas"  # Especificar el nombre de la tabla en plural
 
     def __str__(self):
-        return f"{self.placa} - {self.modelo}"
+        return self.nombre
+
+
+class Modelos(models.Model):
+    nombre = models.CharField(max_length=50)
+    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "vehiculos-modelos"  # Especificar el nombre de la tabla en plural
+
+    def __str__(self):
+        return f"{self.marca.nombre} {self.nombre}"
+
+
+class Vehiculos(models.Model):
+    tipo = models.CharField(
+        max_length=20,
+        choices=[
+            ("CAMION", "Camión"),
+            ("FURGONETA", "Furgoneta"),
+            ("CAMIONETA", "Camioneta"),
+            ("REMOLQUE", "Remolque"),
+        ],
+    )
+    modelo = models.ForeignKey(Modelos, on_delete=models.CASCADE)
+    placa = models.CharField(max_length=20, unique=True)
+    capacidad_carga = models.FloatField(help_text="Capacidad en toneladas")
+    fecha_adquisicion = models.DateField()
+    en_servicio = models.BooleanField(default=True)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "vehiculos-vehiculos"  # Especificar el nombre de la tabla en plural
+
+    def __str__(self):
+        return f"{self.modelo} - {self.placa}"
