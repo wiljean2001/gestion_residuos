@@ -1,3 +1,11 @@
 from django.contrib import admin
+from .models import (
+    Recolecciones,
+    # EstadoRecoleccion,
+    ResiduoRecolecciones,
+) 
 
-# Register your models here.
+
+admin.site.register(Recolecciones)
+# admin.site.register(EstadoRecoleccion)
+admin.site.register(ResiduoRecolecciones)
