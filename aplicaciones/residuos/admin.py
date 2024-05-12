@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Residuos, TipoResiduos  # , PrecioResiduos
 
-# Register your models here.
+
+admin.site.register(Residuos)
+admin.site.register(TipoResiduos)
+# admin.site.register(PrecioResiduos)
